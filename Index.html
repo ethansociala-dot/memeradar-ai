@@ -1,1 +1,0 @@
-# memeradar-ai
