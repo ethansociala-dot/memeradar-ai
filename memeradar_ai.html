@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MemeRadar AI — Market Intelligence</title>
+<style>
+:root{--bg:#090909;--panel:#111;--panel2:#171717;--line:#292929;--muted:#929292;--text:#f4f4f4;--white:#fff;--green:#b8f28b;--red:#ff8b8b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.sidebar{border-right:1px solid var(--line);padding:25px 16px;display:flex;flex-direction:column;gap:28px;background:#0c0c0c}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.08em;font-size:14px}.logo{width:30px;height:30px;border:1px solid #666;border-radius:9px;display:grid;place-items:center;font-weight:900}
+.demo{font-size:10px;letter-spacing:.12em;border:1px solid #555;border-radius:20px;padding:4px 8px;color:#bbb;margin-left:auto}
+.navlabel{font-size:10px;color:#777;letter-spacing:.16em;margin:0 10px 8px}.nav button{display:flex;width:100%;gap:12px;align-items:center;background:transparent;color:#aaa;border:0;padding:11px 12px;border-radius:9px;text-align:left;margin:3px 0}.nav button.active,.nav button:hover{background:#202020;color:#fff}.nav .ico{width:18px;text-align:center;color:#ddd}.side-note{margin-top:auto;border:1px solid var(--line);border-radius:12px;padding:13px;color:#aaa;font-size:12px}
+main{padding:28px 34px 48px;max-width:1500px;width:100%;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}.eyebrow{color:#888;font-size:11px;letter-spacing:.16em;text-transform:uppercase}.top h1{font-size:27px;letter-spacing:-.04em;margin:5px 0 0}.topright{display:flex;align-items:center;gap:10px}.pill{border:1px solid var(--line);padding:7px 11px;border-radius:8px;color:#bbb;font-size:12px}.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#bbb;margin-right:6px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px}.metric-label{color:#888;font-size:12px}.metric{font-size:25px;font-weight:700;letter-spacing:-.04em;margin:7px 0 3px}.sub{font-size:11px;color:#777}.section{display:flex;justify-content:space-between;align-items:center;margin:25px 0 12px}.section h2{font-size:16px;margin:0;letter-spacing:-.02em}.section p{margin:3px 0 0;color:#777;font-size:12px}
+.content-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);gap:14px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:490px}.table th{text-align:left;color:#777;font-weight:500;font-size:11px;padding:10px 8px;border-bottom:1px solid var(--line)}.table td{padding:13px 8px;border-bottom:1px solid #222;font-size:12px}.coin{display:flex;align-items:center;gap:9px;font-weight:650}.coinicon{width:27px;height:27px;border:1px solid #444;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#ddd}.muted{color:#888}.positive{color:var(--green)}.negative{color:var(--red)}.tag{border:1px solid #444;border-radius:5px;padding:3px 6px;font-size:10px;color:#bbb}.btn{background:#f2f2f2;color:#111;border:0;border-radius:8px;padding:9px 13px;font-weight:700;font-size:12px}.btn:hover{background:#d8d8d8}.btn.secondary{background:#1d1d1d;color:#eee;border:1px solid #393939}.btn.small{padding:6px 9px;font-size:11px}.panel-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.panel-title strong{font-size:13px}.panel-title span{font-size:11px;color:#777}
+.signal{padding:12px;border:1px solid #303030;border-radius:9px;margin:9px 0;background:#151515}.signal-head{display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:650}.signal p{color:#999;font-size:11px;margin:7px 0 0}.risk{font-size:10px;color:#bbb;border:1px solid #444;border-radius:4px;padding:2px 5px}
+.chart{height:155px;width:100%;display:block}.chart-label{display:flex;justify-content:space-between;color:#777;font-size:10px;margin-top:5px}
+.view{display:none}.view.active{display:block}.formrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.field{background:#0c0c0c;border:1px solid #333;border-radius:8px;color:#eee;padding:9px 10px;min-width:0}.field:focus{outline:1px solid #aaa}.formrow input{width:125px}.formrow select{min-width:125px}
+.notice{background:#171717;border:1px solid #393939;border-radius:10px;padding:12px 14px;color:#aaa;font-size:11px;margin:15px 0}.notice b{color:#eee}.empty{color:#777;text-align:center;padding:22px;font-size:12px}.footer{color:#666;font-size:10px;margin-top:25px;border-top:1px solid var(--line);padding-top:14px}
+.ai-box{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}.ai-box textarea{width:100%;min-height:100px;resize:vertical;background:#0b0b0b;border:1px solid #333;border-radius:9px;color:#eee;padding:12px}.result{white-space:pre-wrap;color:#bbb;font-size:12px;line-height:1.7;background:#0b0b0b;border:1px solid #292929;border-radius:9px;padding:14px;margin-top:12px;min-height:85px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:static;border-right:0;border-bottom:1px solid var(--line);padding:13px 15px;gap:12px}.nav{display:flex;overflow:auto}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto;margin:0;padding:9px}.brand{margin-bottom:2px}main{padding:22px 16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.top{align-items:flex-start;flex-direction:column}.grid{gap:8px}.card{padding:13px}.metric{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">M</div> MEMERADAR <span class="demo">DEMO</span></div>
+  <div class="navlabel">WORKSPACE</div>
+  <nav class="nav">
+    <button class="active" data-view="overview"><span class="ico">◫</span> Overview</button>
+    <button data-view="scanner"><span class="ico">⌕</span> Coin scanner</button>
+    <button data-view="wallets"><span class="ico">◎</span> Wallet watch</button>
+    <button data-view="paper"><span class="ico">↗</span> Paper trading</button>
+    <button data-view="assistant"><span class="ico">✳</span> AI assistant</button>
+  </nav>
+  <div class="side-note"><b style="color:#eee">Simulation mode</b><br>All prices, signals, wallets and trades on this preview are sample data. No wallet is connected and no real orders can be placed.</div>
+</aside>
+<main>
+<header class="top">
+ <div><div class="eyebrow">Market intelligence / Solana + Ethereum</div><h1 id="pageTitle">Overview</h1></div>
+ <div class="topright"><span class="pill"><i class="live-dot"></i>Sample environment</span><span class="pill">USD</span></div>
+</header>
+
+<section class="view active" id="overview">
+ <div class="grid">
+  <div class="card"><div class="metric-label">Tracked assets</div><div class="metric">08</div><div class="sub">Across 2 networks · sample list</div></div>
+  <div class="card"><div class="metric-label">Paper portfolio</div><div class="metric" id="overviewBalance">$1,000.00</div><div class="sub">Starting virtual balance</div></div>
+  <div class="card"><div class="metric-label">Open paper positions</div><div class="metric" id="overviewPositions">0</div><div class="sub">Simulated only</div></div>
+  <div class="card"><div class="metric-label">Risk notices</div><div class="metric">03</div><div class="sub">Illustrative checks to review</div></div>
+ </div>
+ <div class="content-grid">
+  <div class="card">
+   <div class="panel-title"><strong>Watchlist</strong><span>Illustrative market snapshot</span></div>
+   <div class="table-wrap"><table class="table"><thead><tr><th>ASSET</th><th>NETWORK</th><th>DEMO PRICE</th><th>24H</th><th>RISK</th></tr></thead><tbody id="assetRows"></tbody></table></div>
+   <div class="chart-label"><span>Sample trend line — not live market data</span><span>Last 24 hours</span></div>
+   <svg class="chart" viewBox="0 0 600 155" preserveAspectRatio="none" aria-label="Illustrative chart"><path d="M0 125 L40 112 L80 118 L120 84 L160 93 L200 67 L240 80 L280 48 L320 62 L360 36 L400 54 L440 28 L480 42 L520 22 L560 34 L600 15" fill="none" stroke="#eee" stroke-width="2"/><path d="M0 125 L40 112 L80 118 L120 84 L160 93 L200 67 L240 80 L280 48 L320 62 L360 36 L400 54 L440 28 L480 42 L520 22 L560 34 L600 15 L600 155 L0 155Z" fill="#fff" opacity=".045"/></svg>
+  </div>
+  <div class="card">
+   <div class="panel-title"><strong>AI market notes</strong><span>Example output</span></div>
+   <div class="signal"><div class="signal-head"><span>Liquidity matters</span><span class="risk">HIGH PRIORITY</span></div><p>Thin liquidity can make a quoted price difficult to trade at. Check depth and slippage before drawing conclusions.</p></div>
+   <div class="signal"><div class="signal-head"><span>Volume spike ≠ safety</span><span class="risk">CAUTION</span></div><p>A sudden volume increase can reflect hype, bots, or concentrated activity. It does not confirm a sustainable trend.</p></div>
+   <div class="signal"><div class="signal-head"><span>Contract review</span><span class="risk">CAUTION</span></div><p>Verify token permissions, ownership controls, holder concentration and independent security information.</p></div>
+  </div>
+ </div>
+ <div class="notice"><b>Important:</b> This is an educational prototype using invented sample data. It does not provide financial advice, predict returns, or connect to exchanges or wallets.</div>
+</section>
+
+<section class="view" id="scanner">
+ <div class="section"><div><h2>Coin scanner</h2><p>Browse sample assets and inspect risk factors.</p></div><select class="field" id="networkFilter"><option>All networks</option><option>Solana</option><option>Ethereum</option></select></div>
+ <div class="card table-wrap"><table class="table"><thead><tr><th>ASSET</th><th>NETWORK</th><th>DEMO PRICE</th><th>24H</th><th>RISK</th><th></th></tr></thead><tbody id="scannerRows"></tbody></table></div>
+ <div class="card" id="coinDetail" style="margin-top:14px"><div class="empty">Select “Analyze” on an asset to see an educational risk breakdown.</div></div>
+</section>
+
+<section class="view" id="wallets">
+ <div class="section"><div><h2>Wallet watch</h2><p>Example public-wallet activity feed. Addresses and activity are fictional.</p></div><span class="tag">READ-ONLY DEMO</span></div>
+ <div class="card">
+  <div class="panel-title"><strong>Watched profiles</strong><span>Not connected to a blockchain</span></div>
+  <div class="table-wrap"><table class="table"><thead><tr><th>PROFILE</th><th>NETWORK</th><th>RECENT ACTIVITY</th><th>INTERPRETATION</th></tr></thead><tbody>
+  <tr><td>Wallet Alpha · 0x…DEMO</td><td>Ethereum</td><td>Token transfer</td><td><span class="tag">Needs context</span></td></tr>
+  <tr><td>Wallet Beta · So…DEMO</td><td>Solana</td><td>Liquidity interaction</td><td><span class="tag">Review carefully</span></td></tr>
+  <tr><td>Wallet Gamma · 0x…DEMO</td><td>Ethereum</td><td>Multiple swaps</td><td><span class="tag">Concentration risk</span></td></tr>
+  </tbody></table></div>
+ </div>
+ <div class="notice">A wallet transaction does not reveal the trader's intent. Public-wallet tracking can be delayed or incomplete; copying a wallet's activity can lead to very different outcomes.</div>
+</section>
+
+<section class="view" id="paper">
+ <div class="section"><div><h2>Paper trading</h2><p>Practice with virtual funds only. No real orders are sent.</p></div><button class="btn secondary" id="resetPaper">Reset simulation</button></div>
+ <div class="grid">
+  <div class="card"><div class="metric-label">Virtual cash</div><div class="metric" id="cash">$1,000.00</div><div class="sub">Available to simulate</div></div>
+  <div class="card"><div class="metric-label">Invested (simulated)</div><div class="metric" id="invested">$0.00</div><div class="sub">Cost basis of open positions</div></div>
+  <div class="card"><div class="metric-label">Portfolio value</div><div class="metric" id="total">$1,000.00</div><div class="sub">Cash + sample position value</div></div>
+  <div class="card"><div class="metric-label">Open positions</div><div class="metric" id="positionCount">0</div><div class="sub">Virtual positions only</div></div>
+ </div>
+ <div class="content-grid">
+  <div class="card">
+   <div class="panel-title"><strong>Simulate a buy</strong><span>Uses fixed sample prices</span></div>
+   <div class="formrow"><select class="field" id="tradeAsset"></select><input class="field" id="tradeAmount" type="number" min="1" step="1" placeholder="USD amount"><button class="btn" id="buyBtn">Simulate buy</button></div>
+   <div class="panel-title" style="margin-top:22px"><strong>Open positions</strong><span>Sell to return virtual cash</span></div>
+   <div id="positions"><div class="empty">No positions yet. Try a small simulated trade.</div></div>
+  </div>
+  <div class="card">
+   <div class="panel-title"><strong>Trade journal</strong><span>Stored in this page session</span></div>
+   <div id="journal"><div class="empty">Your simulated activity will appear here.</div></div>
+  </div>
+ </div>
+ <div class="notice"><b>Simulation limitation:</b> Paper trades use static example prices and do not model real fees, slippage, liquidity, taxes, or execution delays. Results are not representative of actual trading.</div>
+</section>
+
+<section class="view" id="assistant">
+ <div class="section"><div><h2>AI research assistant</h2><p>Ask for an educational explanation or a risk checklist.</p></div><span class="tag">LOCAL DEMO</span></div>
+ <div class="card">
+  <div class="ai-box"><textarea id="question" placeholder="Example: What risks should I check before researching a new Solana token?"></textarea><button class="btn" id="askBtn">Analyze question</button></div>
+  <div class="result" id="answer">Your educational analysis will appear here. This prototype uses a built-in response template and is not connected to a live AI model or live market feed.</div>
+ </div>
+ <div class="card" style="margin-top:14px"><div class="panel-title"><strong>Research checklist</strong><span>Use before forming an opinion</span></div>
+  <div class="signal"><div class="signal-head"><span>Liquidity and market depth</span><span class="risk">CHECK</span></div><p>Is there enough liquidity? Could a trade meaningfully move the price? Are liquidity conditions changeable?</p></div>
+  <div class="signal"><div class="signal-head"><span>Holder concentration</span><span class="risk">CHECK</span></div><p>Are a few wallets holding a large share? Are wallets linked or controlled by the same party?</p></div>
+  <div class="signal"><div class="signal-head"><span>Token permissions</span><span class="risk">CHECK</span></div><p>Are minting, freezing, pausing, or upgrade permissions present? Has the contract been independently reviewed?</p></div>
+  <div class="signal"><div class="signal-head"><span>Promotion and transparency</span><span class="risk">CHECK</span></div><p>Are claims independently verifiable? Watch for guaranteed-return promises, urgency, undisclosed promotions, and impersonation.</p></div>
+ </div>
+</section>
+<div class="footer">MEMERADAR AI · Prototype v1.0 · Educational use only · No wallet connection · No real trading · Sample data only</div>
+</main>
+</div>
+<script>
+const assets=[
+ {symbol:"BONK",name:"Bonk",network:"Solana",price:.0000214,change:5.8,risk:"High",desc:"Meme-token volatility can be extreme. Review liquidity depth, holder concentration, token authorities and market venue quality."},
+ {symbol:"WIF",name:"dogwifhat",network:"Solana",price:1.42,change:-3.2,risk:"High",desc:"Check market depth and concentration. Social attention can change quickly and is not a reliable measure of value."},
+ {symbol:"POPCAT",name:"Popcat",network:"Solana",price:.42,change:8.1,risk:"Very high",desc:"Large short-term moves can reverse quickly. Check liquidity, holder distribution and whether volume is organic."},
+ {symbol:"MYRO",name:"Myro",network:"Solana",price:.031,change:-1.4,risk:"Very high",desc:"Small-cap tokens may have thin liquidity and elevated manipulation risk. Verify contract and market data independently."},
+ {symbol:"PEPE",name:"Pepe",network:"Ethereum",price:.0000082,change:2.6,risk:"High",desc:"High volatility and sentiment sensitivity. Review liquidity, concentration and token contract information."},
+ {symbol:"SHIB",name:"Shiba Inu",network:"Ethereum",price:.000014,change:-.8,risk:"High",desc:"Large community does not remove volatility. Consider liquidity, token supply and market-wide risk."},
+ {symbol:"FLOKI",name:"Floki",network:"Ethereum",price:.00012,change:4.3,risk:"High",desc:"Promotional activity and ecosystem claims should be independently verified. Check concentration and liquidity."},
+ {symbol:"MOG",name:"Mog Coin",network:"Ethereum",price:.0000011,change:1.2,risk:"Very high",desc:"Low unit price does not mean a token is cheap. Review market capitalization, supply, liquidity and concentration."}
+];
+let cash=1000, positions={}, journal=[];
+const money=n=>"$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const price=n=>n<.001?n.toFixed(7):n<1?n.toFixed(4):n.toFixed(2);
+function rows(target,filter="All networks"){document.getElementById(target).innerHTML=assets.filter(a=>filter==="All networks"||a.network===filter).map(a=>`<tr><td><div class="coin"><span class="coinicon">${a.symbol.slice(0,1)}</span><span>${a.symbol}<br><small class="muted">${a.name}</small></span></div></td><td>${a.network}</td><td>${price(a.price)}</td><td class="${a.change>=0?'positive':'negative'}">${a.change>0?'+':''}${a.change}%</td><td><span class="tag">${a.risk}</span></td>${target==="scannerRows"?`<td><button class="btn secondary small" onclick="analyzeCoin('${a.symbol}')">Analyze</button></td>`:""}</tr>`).join("")}
+rows("assetRows");rows("scannerRows");
+document.getElementById("networkFilter").addEventListener("change",e=>rows("scannerRows",e.target.value));
+document.getElementById("tradeAsset").innerHTML=assets.map(a=>`<option value="${a.symbol}">${a.symbol} · ${a.network}</option>`).join("");
+function analyzeCoin(sym){const a=assets.find(x=>x.symbol===sym);document.getElementById("coinDetail").innerHTML=`<div class="panel-title"><strong>${a.name} (${a.symbol})</strong><span>${a.network}</span></div><p class="muted" style="font-size:12px">Illustrative risk review — not a buy/sell signal.</p><p style="font-size:13px">${a.desc}</p><div class="notice">Risk classification: <b>${a.risk}</b>. This label is a broad educational warning, not a measured score or prediction.</div>`}
+function updatePaper(){
+ let invested=Object.values(positions).reduce((s,p)=>s+p.cost,0),value=Object.values(positions).reduce((s,p)=>s+p.qty*p.asset.price,0),total=cash+value;
+ for(const id of ["cash"])document.getElementById(id).textContent=money(cash);
+ document.getElementById("invested").textContent=money(invested);document.getElementById("total").textContent=money(total);
+ document.getElementById("positionCount").textContent=Object.keys(positions).length;
+ document.getElementById("overviewBalance").textContent=money(total);document.getElementById("overviewPositions").textContent=Object.keys(positions).length;
+ const entries=Object.entries(positions);
+ document.getElementById("positions").innerHTML=entries.length?entries.map(([sym,p])=>{let val=p.qty*p.asset.price,pl=val-p.cost;return `<div class="signal"><div class="signal-head"><span>${sym} · ${p.asset.network}</span><span class="${pl>=0?'positive':'negative'}">${pl>=0?'+':''}${money(pl)}</span></div><p>${p.qty.toFixed(5)} units · Cost ${money(p.cost)} · Sample value ${money(val)}</p><button class="btn secondary small" style="margin-top:9px" onclick="sell('${sym}')">Simulate sell</button></div>`}).join(""):'<div class="empty">No positions yet. Try a small simulated trade.</div>';
+ document.getElementById("journal").innerHTML=journal.length?journal.slice().reverse().map(j=>`<div class="signal"><div class="signal-head"><span>${j.action} ${j.sym}</span><span>${money(j.amount)}</span></div><p>${j.time} · ${j.note}</p></div>`).join(""):'<div class="empty">Your simulated activity will appear here.</div>';
+}
+document.getElementById("buyBtn").onclick=()=>{let sym=document.getElementById("tradeAsset").value,amount=Number(document.getElementById("tradeAmount").value),a=assets.find(x=>x.symbol===sym);if(!Number.isFinite(amount)||amount<=0){alert("Enter a positive simulated USD amount.");return}if(amount>cash){alert("Not enough virtual cash.");return}let qty=amount/a.price;cash-=amount;if(!positions[sym])positions[sym]={asset:a,qty:0,cost:0};positions[sym].qty+=qty;positions[sym].cost+=amount;journal.push({action:"BUY (SIM)",sym,amount,time:new Date().toLocaleString(),note:"Static sample price"});document.getElementById("tradeAmount").value="";updatePaper()};
+function sell(sym){let p=positions[sym],value=p.qty*p.asset.price;cash+=value;journal.push({action:"SELL (SIM)",sym,amount:value,time:new Date().toLocaleString(),note:"Returned to virtual cash at sample price"});delete positions[sym];updatePaper()}
+document.getElementById("resetPaper").onclick=()=>{if(confirm("Reset all simulated positions and journal?")){cash=1000;positions={};journal=[];updatePaper()}};
+document.getElementById("askBtn").onclick=()=>{let q=document.getElementById("question").value.trim();if(!q){alert("Enter a question first.");return}let lower=q.toLowerCase(),topic=lower.includes("solana")?"Solana":lower.includes("ethereum")?"Ethereum":"the token/network";let answer=`EDUCATIONAL REVIEW · ${topic.toUpperCase()}\n\nQuestion: ${q}\n\nA careful research process:\n1. Verify the token address using more than one reputable source. Similar names and fake tokens are common.\n2. Review liquidity depth, trading volume quality, holder concentration and large-wallet activity.\n3. Check contract permissions and whether an independent security review exists.\n4. Look for undisclosed promotion, guaranteed-return claims, urgency tactics or unverifiable partnerships.\n5. Consider what could go wrong, including rapid price drops, inability to exit, fees and slippage.\n\nLIMITATION: This is a built-in educational template, not a live AI model. It has not checked the token or current market data and does not generate buy/sell recommendations.`;document.getElementById("answer").textContent=answer};
+const titles={overview:"Overview",scanner:"Coin scanner",wallets:"Wallet watch",paper:"Paper trading",assistant:"AI assistant"};
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));document.getElementById(b.dataset.view).classList.add("active");document.getElementById("pageTitle").textContent=titles[b.dataset.view]}));
+updatePaper();
+</script>
+</body>
+</html>
